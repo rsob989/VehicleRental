@@ -1,8 +1,8 @@
-package pl.carrental.model;
+package pl.carrental.model.vehicle;
 
 import java.util.Objects;
 
-public class Caravan extends Vehicles{
+public class Caravan extends Vehicles {
     public final static String TYPE = "Samochód campingowy";
 
     private int sleepPlaces;

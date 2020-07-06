@@ -9,7 +9,7 @@ import pl.carrental.io.DataReader;
 import pl.carrental.io.file.FileManager;
 import pl.carrental.io.file.FileManagerBuilder;
 import pl.carrental.model.*;
-import java.util.Comparator;
+import pl.carrental.model.vehicle.Vehicles;
 import java.util.InputMismatchException;
 
 public class RentalControl {
@@ -17,17 +17,19 @@ public class RentalControl {
     private DataReader dr = new DataReader(cp);
     private FileManager fm;
 
-    private VehicleRental vr;
+    private VehiclesToRent vr;
+    private ClientsRented cr;
 
     public RentalControl() {
         fm = new FileManagerBuilder(cp, dr).build();
         try {
-            vr = fm.importData();
+            vr = fm.importVehicles();
+            cr = fm.importClients();
             cp.printLine("Zaimportowane dane z pliku");
         } catch (DataImportException | InvalidDataException e){
             cp.printLine(e.getMessage());
             cp.printLine("Zainicjowano nową bazę.");
-            vr = new VehicleRental();
+            vr = new VehiclesToRent();
         }
     }
 
@@ -50,12 +52,6 @@ public class RentalControl {
                 case DELETE:
                     delete();
                     break;
-                case ADD_PRIVATE_CLIENT:
-                    addPrivateClient();
-                    break;
-                case PRINT_PRIVATE_CLIENTS:
-                    printPrivateClients();
-                    break;
                 case FIND_VEHICLE:
                     findVehicle();
                     break;
@@ -66,12 +62,12 @@ public class RentalControl {
     }
 
     private void add(){
-        AddOptions ao = new AddOptions(vr, cp, dr);
+        AddOptions ao = new AddOptions(vr, cp, dr, cr);
         ao.addLoop();
     }
 
     private void show(){
-        ShowOptions so = new ShowOptions(vr, cp, dr);
+        ShowOptions so = new ShowOptions(vr, cp, dr, cr);
         so.showLoop();
     }
 
@@ -87,20 +83,6 @@ public class RentalControl {
         vr.findByVin(vin)
                 .map(Vehicles::toString)
                 .ifPresentOrElse(System.out::println, ()-> System.out.println(notFoundMessage));
-    }
-
-    private void addPrivateClient(){
-        PrivateClient pc = dr.createPrivateClient();
-        try{
-            vr.addClient(pc);
-        } catch (ClientAlreadyExistsException e){
-            cp.printLine(e.getMessage());
-        }
-    }
-
-    private void printPrivateClients(){
-        cp.printPrivateClients(vr.getSortedUsers(
-                Comparator.comparing(PrivateClient::getPesel, String.CASE_INSENSITIVE_ORDER)));
     }
 
     private Option getOption(){
@@ -128,7 +110,7 @@ public class RentalControl {
 
     private void exit(){
         try {
-            fm.exportData(vr);
+            fm.exportData(vr, cr);
             cp.printLine("Export danych do pliku zakończony powodzeniem");
         } catch (DataExportException e){
             cp.printLine(e.getMessage());
@@ -140,12 +122,10 @@ public class RentalControl {
     private enum Option {
 
         EXIT(0, "Wyjście z programu"),
-        ADD(1, "Dodanie kolejnego pojazdu do wypożyczalni"),
-        SHOW(2, "Wyświetlenie pojazdów dostępnych w wypożyczalni"),
+        ADD(1, "Dodanie elementów wypożyczalni"),
+        SHOW(2, "Wyświetlenie elementów wypożyczalni"),
         DELETE(3, "Usuń pojazd z wypożyczalni"),
-        ADD_PRIVATE_CLIENT(4, "Dodaj prywatnego klienta"),
-        PRINT_PRIVATE_CLIENTS(5, "Wyświetl prywatnych klientów"),
-        FIND_VEHICLE(6,"Wyszukaj pojazd");
+        FIND_VEHICLE(4,"Wyszukaj pojazd");
 
         private int value;
         private String description;

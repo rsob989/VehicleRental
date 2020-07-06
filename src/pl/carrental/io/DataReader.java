@@ -1,9 +1,10 @@
 package pl.carrental.io;
 
-import pl.carrental.model.Bike;
-import pl.carrental.model.Car;
-import pl.carrental.model.Caravan;
-import pl.carrental.model.PrivateClient;
+import pl.carrental.model.client.BusinessClient;
+import pl.carrental.model.vehicle.Bike;
+import pl.carrental.model.vehicle.Car;
+import pl.carrental.model.vehicle.Caravan;
+import pl.carrental.model.client.PrivateClient;
 
 import java.util.Scanner;
 
@@ -28,6 +29,16 @@ public class DataReader {
         printer.printLine("PESEL: ");
         String pesel = reader.nextLine();
         return new PrivateClient(firstName, lastName, pesel);
+    }
+
+    public BusinessClient createBusinessClient(){
+        printer.printLine("Imię: ");
+        String firstName = reader.nextLine();
+        printer.printLine("Nazwisko: ");
+        String lastName = reader.nextLine();
+        printer.printLine("NIP: ");
+        String nip = reader.nextLine();
+        return new BusinessClient(firstName, lastName, nip);
     }
 
     public Car addNewCar(){

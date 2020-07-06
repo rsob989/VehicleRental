@@ -1,24 +1,30 @@
 package pl.carrental.app.options;
 
+import pl.carrental.exceptions.ClientAlreadyExistsException;
 import pl.carrental.exceptions.NoSuchOptionException;
 import pl.carrental.io.ConsolePrinter;
 import pl.carrental.io.DataReader;
-import pl.carrental.model.Bike;
-import pl.carrental.model.Car;
-import pl.carrental.model.Caravan;
-import pl.carrental.model.VehicleRental;
+import pl.carrental.model.ClientsRented;
+import pl.carrental.model.client.BusinessClient;
+import pl.carrental.model.client.PrivateClient;
+import pl.carrental.model.vehicle.Bike;
+import pl.carrental.model.vehicle.Car;
+import pl.carrental.model.vehicle.Caravan;
+import pl.carrental.model.VehiclesToRent;
 import java.util.InputMismatchException;
 
 public class AddOptions {
 
-    VehicleRental vr;
+    VehiclesToRent vr;
     ConsolePrinter cp;
     DataReader dr;
+    ClientsRented cr;
 
-    public AddOptions(VehicleRental vr, ConsolePrinter cp, DataReader dr) {
+    public AddOptions(VehiclesToRent vr, ConsolePrinter cp, DataReader dr, ClientsRented cr) {
         this.vr = vr;
         this.cp = cp;
         this.dr = dr;
+        this.cr = cr;
     }
 
     public void addLoop(){
@@ -38,6 +44,12 @@ public class AddOptions {
                     break;
                 case ADD_CARAVAN:
                     addCaravan();
+                    break;
+                case ADD_PRIVATE_CLIENT:
+                    addPrivateClient();
+                    break;
+                case ADD_BUSINESS_CLIENT:
+                    addBusinessClient();
                     break;
                 default:
                     cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
@@ -101,12 +113,32 @@ public class AddOptions {
         }
     }
 
+    private void addPrivateClient(){
+        PrivateClient pc = dr.createPrivateClient();
+        try{
+            cr.addClient(pc);
+        } catch (ClientAlreadyExistsException e){
+            cp.printLine(e.getMessage());
+        }
+    }
+
+    private void addBusinessClient(){
+        BusinessClient pc = dr.createBusinessClient();
+        try{
+            cr.addClient(pc);
+        } catch (ClientAlreadyExistsException e){
+            cp.printLine(e.getMessage());
+        }
+    }
+
     private enum AddOption {
 
         BACK(0, "Cofnij do głównego menu"),
         ADD_CAR(1, "Dodanie kolejnego samochodu do wypożyczalni"),
         ADD_BIKE(2, "Dodanie kolejnego roweru do wypożyczalni"),
-        ADD_CARAVAN(3, "Dodanie kolejnego wozu campingowego do wypożyczalni");
+        ADD_CARAVAN(3, "Dodanie kolejnego wozu campingowego do wypożyczalni"),
+        ADD_PRIVATE_CLIENT(4,"Dodanie prywatnego klienta do wypożyczalni"),
+        ADD_BUSINESS_CLIENT(5, "Dodanie biznesowego klienta do wypożyczalni");
 
         private int value;
         private String description;

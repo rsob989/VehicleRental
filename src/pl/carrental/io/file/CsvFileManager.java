@@ -4,27 +4,33 @@ import pl.carrental.exceptions.DataExportException;
 import pl.carrental.exceptions.DataImportException;
 import pl.carrental.exceptions.InvalidDataException;
 import pl.carrental.model.*;
+import pl.carrental.model.client.BusinessClient;
+import pl.carrental.model.client.Client;
+import pl.carrental.model.client.PrivateClient;
+import pl.carrental.model.vehicle.Bike;
+import pl.carrental.model.vehicle.Car;
+import pl.carrental.model.vehicle.Caravan;
+import pl.carrental.model.vehicle.Vehicles;
 
 import java.io.*;
 import java.util.Collection;
-import java.util.Scanner;
 
 public class CsvFileManager implements FileManager {
     private static final String VEHICLES_FILE_NAME = "VehicleRental.csv";
     private static final String CLIENTS_FILE_NAME = "VehicleRentalClients.csv";
 
     @Override
-    public void exportData(VehicleRental vr) {
+    public void exportData(VehiclesToRent vr, ClientsRented cr) {
         exportVehicles(vr);
-        exportClients(vr);
+        exportClients(cr);
     }
 
-    private void exportClients(VehicleRental vr){
-        Collection<PrivateClient> clients = vr.getClients().values();
+    private void exportClients(ClientsRented cr){
+        Collection<Client> clients = cr.getClients().values();
         exportToCsv(clients, CLIENTS_FILE_NAME);
     }
 
-    private void exportVehicles(VehicleRental vr) {
+    private void exportVehicles(VehiclesToRent vr) {
         Collection<Vehicles> vehicles = vr.getVehicles().values();
         exportToCsv(vehicles, VEHICLES_FILE_NAME);
     }
@@ -45,20 +51,25 @@ public class CsvFileManager implements FileManager {
 
 
     @Override
-    public VehicleRental importData() {
-        VehicleRental vr = new VehicleRental();
+    public VehiclesToRent importVehicles() {
+        VehiclesToRent vr = new VehiclesToRent();
         importVehicles(vr);
-        importClients(vr);
         return vr;
     }
 
-    private void importClients(VehicleRental vr) {
+    public ClientsRented importClients() {
+        ClientsRented cr = new ClientsRented();
+        importClients(cr);
+        return cr;
+    }
+
+    private void importClients(ClientsRented cr) {
         try (
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(CLIENTS_FILE_NAME))
         ){
             bufferedReader.lines()
                     .map(this::createClientFromLine)
-                    .forEach(vr::addClient);
+                    .forEach(cr::addClient);
         } catch (FileNotFoundException e){
             throw new DataImportException("Brak pliku " + CLIENTS_FILE_NAME);
         } catch (IOException e){
@@ -66,7 +77,7 @@ public class CsvFileManager implements FileManager {
         }
     }
 
-    private void importVehicles(VehicleRental vr) {
+    private void importVehicles(VehiclesToRent vr) {
         try (
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(VEHICLES_FILE_NAME))
                 ){
@@ -80,12 +91,29 @@ public class CsvFileManager implements FileManager {
         }
     }
 
-    private PrivateClient createClientFromLine(String csv){
+    private Client createClientFromLine(String csv){
         String[] split = csv.split(";");
-        String firstName = split[0];
-        String lastName = split[1];
-        String pesel = split[2];
+        String type = split[0];
+        if(PrivateClient.TYPE.equals(type)){
+            return createPrivateClient(split);
+        } else if(BusinessClient.TYPE.equals(type)){
+            return createBusinessClient(split);
+        }
+        throw new InvalidDataException("Nieznany typ klienta: " + type);
+    }
+
+    private PrivateClient createPrivateClient(String[] data){
+        String firstName = data[1];
+        String lastName = data[2];
+        String pesel = data[3];
         return new PrivateClient(firstName, lastName, pesel);
+    }
+
+    private BusinessClient createBusinessClient(String[] data){
+        String firstName = data[1];
+        String lastName = data[2];
+        String nip = data[3];
+        return new BusinessClient(firstName, lastName, nip);
     }
 
     private Vehicles createObjectFromLine(String csv){

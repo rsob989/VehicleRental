@@ -1,4 +1,4 @@
-package pl.carrental.model;
+package pl.carrental.model.vehicle;
 
 import java.util.Objects;
 
