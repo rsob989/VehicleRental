@@ -30,6 +30,7 @@ public class RentalControl {
             cp.printLine(e.getMessage());
             cp.printLine("Zainicjowano nową bazę.");
             vr = new VehiclesToRent();
+            cr = new ClientsRented();
         }
     }
 
