@@ -1,11 +1,13 @@
 package pl.carrental.io;
 
 import pl.carrental.model.client.BusinessClient;
+import pl.carrental.model.client.Client;
 import pl.carrental.model.vehicle.Bike;
 import pl.carrental.model.vehicle.Car;
 import pl.carrental.model.vehicle.Caravan;
 import pl.carrental.model.client.PrivateClient;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class DataReader {
@@ -29,6 +31,18 @@ public class DataReader {
         printer.printLine("PESEL: ");
         String pesel = reader.nextLine();
         return new PrivateClient(firstName, lastName, pesel);
+    }
+
+    public String createLastName(){
+        printer.printLine("Podaj nazwisko klienta: ");
+        String lastName = getString();
+        return lastName;
+    }
+
+    public String createVin(){
+        printer.printLine("Podaj numer VIN/seryjny: ");
+        String vin = getString();
+        return vin;
     }
 
     public BusinessClient createBusinessClient(){

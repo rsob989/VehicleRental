@@ -12,34 +12,6 @@ public class ClientsRented implements Serializable {
 
     private Map<String, Client> clients = new HashMap<>();
 
-    private List<Vehicles> vehicleRentalHistory = new ArrayList<>();
-    private List<Vehicles> borrowedVehicles = new ArrayList<>();
-
-    public List<Vehicles> getVehicleRentalHistory() {
-        return vehicleRentalHistory;
-    }
-
-    public List<Vehicles> getBorrowedVehicles() {
-        return borrowedVehicles;
-    }
-
-    private void borrowVehicle(Vehicles vehicle){
-        borrowedVehicles.add(vehicle);
-    }
-
-    private void addVehicleToHistory(Vehicles vehicle){
-        vehicleRentalHistory.add(vehicle);
-    }
-
-    public boolean returnVehicle(Vehicles vehicle){
-        boolean result = false;
-        if(borrowedVehicles.remove(vehicle)){
-            result = true;
-            addVehicleToHistory(vehicle);
-        }
-        return result;
-    }
-
     public Map<String, Client> getClients() {
         return clients;
     }
@@ -55,5 +27,9 @@ public class ClientsRented implements Serializable {
         ArrayList<Client> list = new ArrayList<>(clients.values());
         list.sort(comparator);
         return list;
+    }
+
+    public Optional<Client> findByLastName(String lastName){
+        return Optional.ofNullable(clients.get(lastName));
     }
 }

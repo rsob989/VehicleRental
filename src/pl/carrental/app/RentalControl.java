@@ -1,14 +1,13 @@
 package pl.carrental.app;
 
-import pl.carrental.app.options.AddOptions;
-import pl.carrental.app.options.DeleteOptions;
-import pl.carrental.app.options.ShowOptions;
+import pl.carrental.app.options.*;
 import pl.carrental.exceptions.*;
 import pl.carrental.io.ConsolePrinter;
 import pl.carrental.io.DataReader;
 import pl.carrental.io.file.FileManager;
 import pl.carrental.io.file.FileManagerBuilder;
 import pl.carrental.model.*;
+import pl.carrental.model.client.Client;
 import pl.carrental.model.vehicle.Vehicles;
 import java.util.InputMismatchException;
 
@@ -53,13 +52,26 @@ public class RentalControl {
                 case DELETE:
                     delete();
                     break;
-                case FIND_VEHICLE:
-                    findVehicle();
+                case FIND:
+                    find();
+                    break;
+                case RENT:
+                    rent();
                     break;
                 default:
                     cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
             }
         } while (option != Option.EXIT);
+    }
+
+    private void find(){
+        FindOptions fo = new FindOptions(vr, cp, dr, cr);
+        fo.findLoop();
+    }
+
+    private void rent(){
+        RentOptions ro = new RentOptions(cp, dr, cr, vr);
+        ro.rentLoop();
     }
 
     private void add(){
@@ -75,15 +87,6 @@ public class RentalControl {
     private void delete(){
         DeleteOptions delete = new DeleteOptions(vr, cp, dr);
         delete.deleteLoop();
-    }
-
-    private void findVehicle(){
-        cp.printLine("Podaj numer vin:");
-        String vin = dr.getString();
-        String notFoundMessage = "Brak pojazdów z takim numerem vin w wypożyczalni";
-        vr.findByVin(vin)
-                .map(Vehicles::toString)
-                .ifPresentOrElse(System.out::println, ()-> System.out.println(notFoundMessage));
     }
 
     private Option getOption(){
@@ -123,10 +126,11 @@ public class RentalControl {
     private enum Option {
 
         EXIT(0, "Wyjście z programu"),
-        ADD(1, "Dodanie elementów wypożyczalni"),
-        SHOW(2, "Wyświetlenie elementów wypożyczalni"),
-        DELETE(3, "Usuń pojazd z wypożyczalni"),
-        FIND_VEHICLE(4,"Wyszukaj pojazd");
+        ADD(1, "Opcje dodawania"),
+        SHOW(2, "Opcje wyświetlania"),
+        DELETE(3, "Opcje usuwania"),
+        FIND(4,"Opcje wyszukiwania"),
+        RENT(5, "Opcje wypożyczania ");
 
         private int value;
         private String description;

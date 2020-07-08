@@ -1,13 +1,43 @@
 package pl.carrental.model.client;
 
 import pl.carrental.model.CsvConvertible;
+import pl.carrental.model.vehicle.Vehicles;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Client implements Serializable, CsvConvertible, Comparable<Client> {
     private String firstName;
     private String lastName;
+    private List<Vehicles> vehicleRentalHistory = new ArrayList<>();
+    private List<Vehicles> borrowedVehicles = new ArrayList<>();
+
+    public List<Vehicles> getVehicleRentalHistory() {
+        return vehicleRentalHistory;
+    }
+
+    public List<Vehicles> getBorrowedVehicles() {
+        return borrowedVehicles;
+    }
+
+    public void borrowVehicle(Vehicles vehicle){
+        borrowedVehicles.add(vehicle);
+    }
+
+    public void addVehicleToHistory(Vehicles vehicle){
+        vehicleRentalHistory.add(vehicle);
+    }
+
+    public boolean returnVehicle(Vehicles vehicle){
+        boolean result = false;
+        if(borrowedVehicles.remove(vehicle)){
+            result = true;
+            addVehicleToHistory(vehicle);
+        }
+        return result;
+    }
 
     public Client(String firstName, String lastName) {
         this.firstName = firstName;
