@@ -4,17 +4,19 @@ import pl.carrental.exceptions.NoSuchOptionException;
 import pl.carrental.io.ConsolePrinter;
 import pl.carrental.io.DataReader;
 import pl.carrental.model.*;
+import pl.carrental.model.vehicle.Bike;
+import pl.carrental.model.vehicle.Car;
+import pl.carrental.model.vehicle.Caravan;
 
-import java.util.Comparator;
 import java.util.InputMismatchException;
 
 public class DeleteOptions {
 
-    VehicleRental vr;
+    VehiclesToRent vr;
     ConsolePrinter cp;
     DataReader dr;
 
-    public DeleteOptions(VehicleRental vr, ConsolePrinter cp, DataReader dr) {
+    public DeleteOptions(VehiclesToRent vr, ConsolePrinter cp, DataReader dr) {
         this.vr = vr;
         this.cp = cp;
         this.dr = dr;

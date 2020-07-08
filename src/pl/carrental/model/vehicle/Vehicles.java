@@ -1,4 +1,6 @@
-package pl.carrental.model;
+package pl.carrental.model.vehicle;
+
+import pl.carrental.model.CsvConvertible;
 
 import java.io.Serializable;
 import java.time.Year;

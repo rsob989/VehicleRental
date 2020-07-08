@@ -4,20 +4,24 @@ import pl.carrental.exceptions.NoSuchOptionException;
 import pl.carrental.io.ConsolePrinter;
 import pl.carrental.io.DataReader;
 import pl.carrental.model.*;
+import pl.carrental.model.client.Client;
+import pl.carrental.model.vehicle.Vehicles;
 
 import java.util.Comparator;
 import java.util.InputMismatchException;
 
 public class ShowOptions {
 
-    VehicleRental vr;
+    VehiclesToRent vr;
     ConsolePrinter cp;
     DataReader dr;
+    ClientsRented cr;
 
-    public ShowOptions(VehicleRental vr, ConsolePrinter cp, DataReader dr) {
+    public ShowOptions(VehiclesToRent vr, ConsolePrinter cp, DataReader dr, ClientsRented cr) {
         this.vr = vr;
         this.cp = cp;
         this.dr = dr;
+        this.cr = cr;
     }
 
     public void showLoop(){
@@ -37,6 +41,12 @@ public class ShowOptions {
                     break;
                 case SHOW_CARAVANS:
                     showCaravans();
+                    break;
+                case SHOW_PRIVATE_CLIENTS:
+                    printPrivateClients();
+                    break;
+                case SHOW_BUSINESS_CLIENTS:
+                    printBusinessClients();
                     break;
                 default:
                     cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
@@ -85,12 +95,24 @@ public class ShowOptions {
         );
     }
 
+    private void printPrivateClients(){
+        cp.printPrivateClients(cr.getSortedClients(
+                Comparator.comparing(Client::getLastName, String.CASE_INSENSITIVE_ORDER)));
+    }
+
+    private void printBusinessClients(){
+        cp.printBusinessClients(cr.getSortedClients(
+                Comparator.comparing(Client::getLastName, String.CASE_INSENSITIVE_ORDER)));
+    }
+
     private enum ShowOption {
 
         BACK(0, "Cofnij do głównego menu"),
         SHOW_CARS(1, "Wyświetlenie wszystkich samochodów dostępnych w wypożyczalni"),
         SHOW_BIKES(2, "Wyświetlenie wszystkich rowerów dostępnych w wypożyczalni"),
-        SHOW_CARAVANS(3, "Wyświetlenie wszystkich wozów campingowych dostępnych w wypożyczalni");
+        SHOW_CARAVANS(3, "Wyświetlenie wszystkich wozów campingowych dostępnych w wypożyczalni"),
+        SHOW_PRIVATE_CLIENTS(4, "Wyświetlenie wszystkich prywatnych klientów"),
+        SHOW_BUSINESS_CLIENTS(5, "Wyświetlenie wszystkich klientów bizesowych");
 
         private int value;
         private String description;

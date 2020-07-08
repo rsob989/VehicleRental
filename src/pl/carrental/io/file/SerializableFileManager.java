@@ -2,42 +2,65 @@ package pl.carrental.io.file;
 
 import pl.carrental.exceptions.DataExportException;
 import pl.carrental.exceptions.DataImportException;
-import pl.carrental.model.VehicleRental;
+import pl.carrental.model.ClientsRented;
+import pl.carrental.model.VehiclesToRent;
 
 import java.io.*;
 
 public class SerializableFileManager implements FileManager {
-    private static final String FILE_NAME = "VehicleRental.o";
+    private static final String VEHICLE_FILE_NAME = "Vehicle.o";
+    private static final String CLIENTS_FILE_NAME = "Clients.o";
 
     @Override
-    public VehicleRental importData() {
+    public VehiclesToRent importVehicles() {
         try(
-                FileInputStream fis = new FileInputStream(FILE_NAME);
+                FileInputStream fis = new FileInputStream(VEHICLE_FILE_NAME);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 ){
-            VehicleRental vr = (VehicleRental)ois.readObject();
+            VehiclesToRent vr = (VehiclesToRent)ois.readObject();
             return vr;
         } catch (FileNotFoundException e){
-            throw new DataImportException("Brak pliku " + FILE_NAME);
+            throw new DataImportException("Brak pliku " + VEHICLE_FILE_NAME);
         } catch (IOException e){
-            throw new DataImportException("Błąd odczytu pliku " + FILE_NAME);
+            throw new DataImportException("Błąd odczytu pliku " + VEHICLE_FILE_NAME);
         } catch (ClassNotFoundException e){
-            throw new DataImportException("Niezgodny typ danych w pliku " + FILE_NAME);
+            throw new DataImportException("Niezgodny typ danych w pliku " + VEHICLE_FILE_NAME);
+        }
+    }
+
+    public ClientsRented importClients() {
+        try(
+                FileInputStream fis = new FileInputStream(CLIENTS_FILE_NAME);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+        ){
+            ClientsRented cr = (ClientsRented) ois.readObject();
+            return cr;
+        } catch (FileNotFoundException e){
+            throw new DataImportException("Brak pliku " + CLIENTS_FILE_NAME);
+        } catch (IOException e){
+            throw new DataImportException("Błąd odczytu pliku " + CLIENTS_FILE_NAME);
+        } catch (ClassNotFoundException e){
+            throw new DataImportException("Niezgodny typ danych w pliku " + CLIENTS_FILE_NAME);
         }
     }
 
     @Override
-    public void exportData(VehicleRental vr) {
+    public void exportData(VehiclesToRent vr, ClientsRented cr) {
+        export(vr, VEHICLE_FILE_NAME);
+        export(cr, CLIENTS_FILE_NAME);
+
+    }
+
+    private <T> void export(T data, String fileName) {
         try(
-                FileOutputStream fos = new FileOutputStream(FILE_NAME);
+                FileOutputStream fos = new FileOutputStream(fileName);
                 ObjectOutputStream oos = new ObjectOutputStream(fos)
         ){
-            oos.writeObject(vr);
+            oos.writeObject(data);
         } catch (FileNotFoundException e){
-            throw new DataExportException("Brak pliku " + FILE_NAME);
+            throw new DataExportException("Brak pliku " + fileName);
         } catch (IOException e){
-            throw new DataExportException("Błąd zapisu danych do pliku " + FILE_NAME);
+            throw new DataExportException("Błąd zapisu danych do pliku " + fileName);
         }
-
     }
 }
