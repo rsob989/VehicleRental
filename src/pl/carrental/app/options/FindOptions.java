@@ -41,14 +41,14 @@ public class FindOptions {
                     findVehicle();
                     break;
                 default:
-                    cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
+                    cp.printLine("Select correct option. Try again!");
             }
         } while (option != PrintOption.BACK);
     }
 
     private void findVehicle(){
         String vin = dr.createVin();
-        String notFoundMessage = "Brak pojazdów z takim numerem vin w wypożyczalni";
+        String notFoundMessage = "There are no vehicles with such a vin/serial number";
         vr.findByVin(vin)
                 .map(Vehicles::toString)
                 .ifPresentOrElse(System.out::println, ()-> System.out.println(notFoundMessage));
@@ -56,7 +56,7 @@ public class FindOptions {
 
     private void findClient(){
         String lastName = dr.createLastName();
-        String notFoundMessage = "Brak klientów z takim nazwiskiem w wypożyczalni";
+        String notFoundMessage = "There are no customers with such a surname";
         cr.findByLastName(lastName)
                 .map(Client::toString)
                 .ifPresentOrElse(System.out::println, ()-> System.out.println(notFoundMessage));
@@ -70,16 +70,16 @@ public class FindOptions {
                 option = PrintOption.numberToOption(dr.getInt());
                 optionOk = true;
             } catch (NoSuchOptionException ex){
-                cp.printLine(ex.getMessage() + ", podaj ponownie:");
+                cp.printLine(ex.getMessage() + ", try again!");
             } catch (InputMismatchException ignored){
-                cp.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                cp.printLine("Entered value is not a number, try again!");
             }
         }
         return option;
     }
 
     private void printOptions(){
-        cp.printLine("Wybierz jedną z poniższych opcji: ");
+        cp.printLine("Select one of the options:");
         for(PrintOption o: PrintOption.values()){
             cp.printLine(o.toString());
         }
@@ -87,9 +87,9 @@ public class FindOptions {
 
     private enum PrintOption {
 
-        BACK(0, "Cofnij do głównego menu"),
-        FIND_CLIENT(1, "Wyszukaj klienta"),
-        FIND_VEHICLE(2, "Wyszukaj pojazd");
+        BACK(0, "Back to main menu"),
+        FIND_CLIENT(1, "Search for a customer"),
+        FIND_VEHICLE(2, "Search for a vehicle");
 
 
         private int value;
@@ -108,7 +108,7 @@ public class FindOptions {
             try {
                 return PrintOption.values()[number];
             } catch (ArrayIndexOutOfBoundsException ex){
-                throw new NoSuchOptionException("Nie ma takiej opcji w programie: " + number);
+                throw new NoSuchOptionException("There is no such an option " + number);
             }
         }
     }

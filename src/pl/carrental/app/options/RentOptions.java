@@ -48,13 +48,13 @@ public class RentOptions {
                     showRentedCars();
                     break;
                 default:
-                    cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
+                    cp.printLine("Select correct option. Try again!");
             }
         } while (option != RentOption.BACK);
     }
 
     private void printOptions(){
-        cp.printLine("Wybierz jedną z poniższych opcji: ");
+        cp.printLine("Select one of the options:");
         for(RentOption o: RentOption.values()){
             cp.printLine(o.toString());
         }
@@ -68,9 +68,9 @@ public class RentOptions {
                 option = RentOption.numberToOption(dr.getInt());
                 optionOk = true;
             } catch (NoSuchOptionException ex){
-                cp.printLine(ex.getMessage() + ", podaj ponownie:");
+                cp.printLine(ex.getMessage() + ", try again!");
             } catch (InputMismatchException ignored){
-                cp.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                cp.printLine("Entered value is not a number, try again!");
             }
         }
         return option;
@@ -83,17 +83,17 @@ public class RentOptions {
         try{
             client = cr.getClients().get(lastName);
         } catch (NoSuchElementException ex){
-            cp.printLine("Brak klienta o podanym nazwisku");
+            cp.printLine("There are no customers with such a surname");
         }
         String vin = dr.createVin();
         try{
             vehicle = vr.getVehicles().get(vin);
         } catch (NoSuchElementException ex){
-            cp.printLine("Brak pojazdu o wskazanym numerze VIN/seryjnym");
+            cp.printLine("There are no vehicles with such a vin/serial number");
         }
         client.borrowVehicle(vehicle);
         vr.removeVehicle(vehicle);
-        cp.printLine("Pojazd został wypożyczony");
+        cp.printLine("Vehicle borrowed");
     }
 
     private void returnVehicle(){
@@ -103,7 +103,7 @@ public class RentOptions {
         try{
             client = cr.getClients().get(lastName);
         } catch (NoSuchElementException ex){
-            cp.printLine("Brak klienta o podanym nazwisku");
+            cp.printLine("There are no customers with such a surname");
         }
         String vin = dr.createVin();
         try{
@@ -113,19 +113,19 @@ public class RentOptions {
                 }
             }
         } catch (NoSuchElementException ex){
-            cp.printLine("Brak pojazdu o wskazanym numerze VIN/seryjnym wśród pożyczonych klientowi");
+            cp.printLine("There are no vehicles with such a vin/serial number among borrowed by this customer");
         }
         if(client.returnVehicle(vehicle)){
             client.addVehicleToHistory(vehicle);
             vr.addVehicles(vehicle);
-            cp.printLine("Pojazd został zwrócony");
+            cp.printLine("Vehilce returned");
         } else
-            System.out.println("Nie udało się zwrócić pojazdu");
+            System.out.println("Vehicle return canceled");
 
     }
 
     private void showHistoryOfRentedCars(){
-        cp.printLine("Podaj nazwisko klienta, którego historię wypożyczonych pojazdów chcesz zobaczyć: ");
+        cp.printLine("Enter the customer surname to see his/her rental history");
         String lastName = dr.getString();
         Client client = cr.getClients().get(lastName);
         List<Vehicles> list = client.getVehicleRentalHistory();
@@ -135,7 +135,7 @@ public class RentOptions {
     }
 
     private void showRentedCars(){
-        cp.printLine("Podaj nazwisko klienta, którego aktualnie wypożyczone pojazdy chcesz zobaczyć: ");
+        cp.printLine("Enter the customer surname to see his/her borrowed vehicles");
         String lastName = dr.getString();
         Client client = cr.getClients().get(lastName);
         List<Vehicles> list = client.getBorrowedVehicles();
@@ -146,11 +146,11 @@ public class RentOptions {
 
     private enum RentOption {
 
-        BACK(0, "Cofnij do głównego menu"),
-        RENT_VEHICLE(1, "Wypożycz pojazd klientowi"),
-        RETURN_VEHICLE(2, "Zwróć wypożyczony pojazd"),
-        SHOW_HISTORY_OF_RENTED_CARS(3, "Wyświetl historię wypożyczanych przez klienta pojazdów"),
-        SHOW_RENTED_CARS(4, "Wyświetl aktualnie wypożyczone przez klienta pojazdy");
+        BACK(0, "Back to main menu"),
+        RENT_VEHICLE(1, "Rent vehicle"),
+        RETURN_VEHICLE(2, "Return vehicle"),
+        SHOW_HISTORY_OF_RENTED_CARS(3, "Show customer rental history"),
+        SHOW_RENTED_CARS(4, "Show customer current borrowed vehicles");
 
         private int value;
         private String description;
@@ -168,7 +168,7 @@ public class RentOptions {
             try {
                 return RentOption.values()[number];
             } catch (ArrayIndexOutOfBoundsException ex){
-                throw new NoSuchOptionException("Nie ma takiej opcji w programie: " + number);
+                throw new NoSuchOptionException("There is no such an option " + number);
             }
         }
     }

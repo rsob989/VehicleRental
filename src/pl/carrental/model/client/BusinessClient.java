@@ -3,7 +3,7 @@ package pl.carrental.model.client;
 import java.util.Objects;
 
 public class BusinessClient extends Client {
-    public static final String TYPE = "Klient biznesowy";
+    public static final String TYPE = "Business customer";
 
     private String nip;
 

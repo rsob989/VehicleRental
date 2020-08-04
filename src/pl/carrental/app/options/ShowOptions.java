@@ -49,7 +49,7 @@ public class ShowOptions {
                     printBusinessClients();
                     break;
                 default:
-                    cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
+                    cp.printLine("Select correct option. Try again!");
             }
         } while (option != ShowOption.BACK);
     }
@@ -62,16 +62,16 @@ public class ShowOptions {
                 option = ShowOption.numberToOption(dr.getInt());
                 optionOk = true;
             } catch (NoSuchOptionException ex){
-                cp.printLine(ex.getMessage() + ", podaj ponownie:");
+                cp.printLine(ex.getMessage() + ", try again!");
             } catch (InputMismatchException ignored){
-                cp.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                cp.printLine("Entered value is not a number, try again!");
             }
         }
         return option;
     }
 
     private void printOptions(){
-        cp.printLine("Wybierz jedną z poniższych opcji: ");
+        cp.printLine("Select one of the options:");
         for(ShowOption o: ShowOption.values()){
             cp.printLine(o.toString());
         }
@@ -107,12 +107,12 @@ public class ShowOptions {
 
     private enum ShowOption {
 
-        BACK(0, "Cofnij do głównego menu"),
-        SHOW_CARS(1, "Wyświetlenie wszystkich samochodów dostępnych w wypożyczalni"),
-        SHOW_BIKES(2, "Wyświetlenie wszystkich rowerów dostępnych w wypożyczalni"),
-        SHOW_CARAVANS(3, "Wyświetlenie wszystkich wozów campingowych dostępnych w wypożyczalni"),
-        SHOW_PRIVATE_CLIENTS(4, "Wyświetlenie wszystkich prywatnych klientów"),
-        SHOW_BUSINESS_CLIENTS(5, "Wyświetlenie wszystkich klientów bizesowych");
+        BACK(0, "Back to main menu"),
+        SHOW_CARS(1, "Show all cars"),
+        SHOW_BIKES(2, "Show all bicycles"),
+        SHOW_CARAVANS(3, "Show all caravans"),
+        SHOW_PRIVATE_CLIENTS(4, "Show all private customers"),
+        SHOW_BUSINESS_CLIENTS(5, "Show all business customers");
 
         private int value;
         private String description;
@@ -130,7 +130,7 @@ public class ShowOptions {
             try {
                 return ShowOption.values()[number];
             } catch (ArrayIndexOutOfBoundsException ex){
-                throw new NoSuchOptionException("Nie ma takiej opcji w programie: " + number);
+                throw new NoSuchOptionException("There is no such an option " + number);
             }
         }
     }

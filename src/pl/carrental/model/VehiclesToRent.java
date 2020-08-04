@@ -12,7 +12,7 @@ public class VehiclesToRent implements Serializable {
 
     public void addVehicles(Vehicles vehicle){
         if(vehicles.containsKey(vehicle.getVin()))
-            throw new VehicleAlreadyExistsException("Pojazd o takim numerze seryjnym/vin już istnieje " + vehicle.getVin());
+            throw new VehicleAlreadyExistsException("Vehicle with such a vin/serial number doesn't exist " + vehicle.getVin());
         vehicles.put(vehicle.getVin(), vehicle);
     }
 

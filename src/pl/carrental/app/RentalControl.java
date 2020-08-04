@@ -7,8 +7,6 @@ import pl.carrental.io.DataReader;
 import pl.carrental.io.file.FileManager;
 import pl.carrental.io.file.FileManagerBuilder;
 import pl.carrental.model.*;
-import pl.carrental.model.client.Client;
-import pl.carrental.model.vehicle.Vehicles;
 import java.util.InputMismatchException;
 
 public class RentalControl {
@@ -24,10 +22,10 @@ public class RentalControl {
         try {
             vr = fm.importVehicles();
             cr = fm.importClients();
-            cp.printLine("Zaimportowane dane z pliku");
+            cp.printLine("Data imported from the file");
         } catch (DataImportException | InvalidDataException e){
             cp.printLine(e.getMessage());
-            cp.printLine("Zainicjowano nową bazę.");
+            cp.printLine("New database initiated");
             vr = new VehiclesToRent();
             cr = new ClientsRented();
         }
@@ -59,7 +57,7 @@ public class RentalControl {
                     rent();
                     break;
                 default:
-                    cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
+                    cp.printLine("Select correct option. Try again!");
             }
         } while (option != Option.EXIT);
     }
@@ -97,16 +95,16 @@ public class RentalControl {
                 option = Option.numberToOption(dr.getInt());
                 optionOk = true;
             } catch (NoSuchOptionException ex){
-                cp.printLine(ex.getMessage() + ", podaj ponownie:");
+                cp.printLine(ex.getMessage() + ", try again!");
             } catch (InputMismatchException ignored){
-                cp.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                cp.printLine("Entered value is not a number, try again!");
             }
         }
         return option;
     }
 
     private void printOptions(){
-        cp.printLine("Wybierz jedną z poniższych opcji: ");
+        cp.printLine("Select one of the options:");
         for(Option o: Option.values()){
             cp.printLine(o.toString());
         }
@@ -115,22 +113,22 @@ public class RentalControl {
     private void exit(){
         try {
             fm.exportData(vr, cr);
-            cp.printLine("Export danych do pliku zakończony powodzeniem");
+            cp.printLine("Data exported successfully!");
         } catch (DataExportException e){
             cp.printLine(e.getMessage());
         }
-        cp.printLine("Do zobaczenia! ");
+        cp.printLine("See you soon!");
         dr.close();
     }
 
     private enum Option {
 
-        EXIT(0, "Wyjście z programu"),
-        ADD(1, "Opcje dodawania"),
-        SHOW(2, "Opcje wyświetlania"),
-        DELETE(3, "Opcje usuwania"),
-        FIND(4,"Opcje wyszukiwania"),
-        RENT(5, "Opcje wypożyczania ");
+        EXIT(0, "Exit"),
+        ADD(1, "Add options"),
+        SHOW(2, "Show options"),
+        DELETE(3, "Delete options"),
+        FIND(4,"Search options"),
+        RENT(5, "Rent options");
 
         private int value;
         private String description;
@@ -148,7 +146,7 @@ public class RentalControl {
             try {
                 return Option.values()[number];
             } catch (ArrayIndexOutOfBoundsException ex){
-                throw new NoSuchOptionException("Nie ma takiej opcji w programie: " + number);
+                throw new NoSuchOptionException("There is no such an option " + number);
             }
         }
     }

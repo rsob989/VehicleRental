@@ -19,7 +19,7 @@ public class ConsolePrinter {
                 .peek(this::printLine)
                 .count();
         if(count == 0)
-            printLine("Brak samochodów w wypożyczalni");
+            printLine("No cars in car rental");
     }
 
     public void printCaravans(Collection<Vehicles> vehicles) {
@@ -29,7 +29,7 @@ public class ConsolePrinter {
                 .peek(this::printLine)
                 .count();
         if (count == 0) {
-            printLine("Brak samochodów campingowych w wypożyczalni");
+            printLine("No caravans in car rental");
         }
     }
 
@@ -40,7 +40,7 @@ public class ConsolePrinter {
                 .peek(this::printLine)
                 .count();
         if (count == 0) {
-            printLine("Brak rowerów w wypożyczalni");
+            printLine("No bicycles in car rental");
         }
     }
 
@@ -51,7 +51,7 @@ public class ConsolePrinter {
                 .peek(this::printLine)
                 .count();
         if(count == 0) {
-            printLine("Brak klientów prywatnych w bazie danych");
+            printLine("No private customers in database");
         }
     }
 
@@ -62,7 +62,7 @@ public class ConsolePrinter {
                 .peek(this::printLine)
                 .count();
         if(count == 0) {
-            printLine("Brak klientów biznesowych w bazie danych");
+            printLine("No business customers in database");
         }
     }
 

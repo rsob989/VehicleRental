@@ -15,7 +15,7 @@ public class FileManagerBuilder {
     }
 
     public FileManager build(){
-        printer.printLine("Wybierz format danych:");
+        printer.printLine("Select data format:");
         FileType fileType = getFileType();
         switch (fileType){
             case CSV:
@@ -23,7 +23,7 @@ public class FileManagerBuilder {
             case SERIAL:
                 return new SerializableFileManager();
             default:
-                throw new NoSuchFileTypeException("Nieobsługiwany typ danych");
+                throw new NoSuchFileTypeException("Not supported data type");
         }
     }
 
@@ -37,7 +37,7 @@ public class FileManagerBuilder {
                 result = FileType.valueOf(type);
                 isOk = true;
             } catch (IllegalArgumentException e){
-                printer.printLine("Nieobsługiwany typ danych, wybierz ponownie.");
+                printer.printLine("Not supported data type, try again!");
             }
         } while(!isOk);
         return result;

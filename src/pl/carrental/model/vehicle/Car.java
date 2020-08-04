@@ -3,7 +3,7 @@ package pl.carrental.model.vehicle;
 import java.util.Objects;
 
 public class Car extends Vehicles {
-    public static final String TYPE = "Samochód";
+    public static final String TYPE = "Car";
 
     private int vehicleMileage;
     private boolean accidentFree;
@@ -32,7 +32,7 @@ public class Car extends Vehicles {
 
     @Override
     public String toString() {
-        return super.toString() + " ; przebieg:" + vehicleMileage + " ; bezwypadowy:" + accidentFree;
+        return super.toString() + " ; mileage:" + vehicleMileage + " ; accident-free:" + accidentFree;
     }
 
     @Override

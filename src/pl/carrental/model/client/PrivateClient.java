@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class PrivateClient extends Client {
-    public static final String TYPE = "Prywatny klient";
+    public static final String TYPE = "Private customer";
 
     private String pesel;
 

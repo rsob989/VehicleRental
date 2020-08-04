@@ -3,7 +3,7 @@ package pl.carrental.model.vehicle;
 import java.util.Objects;
 
 public class Caravan extends Vehicles {
-    public final static String TYPE = "Samochód campingowy";
+    public final static String TYPE = "Caravan";
 
     private int sleepPlaces;
     private int numberOfWindows;
@@ -32,7 +32,7 @@ public class Caravan extends Vehicles {
 
     @Override
     public String toString() {
-        return super.toString() + " ; miejsca do spania:" + sleepPlaces + " ; liczba okien:" + numberOfWindows;
+        return super.toString() + " ; sleep places:" + sleepPlaces + " ; windows number:" + numberOfWindows;
     }
 
     @Override

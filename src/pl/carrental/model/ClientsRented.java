@@ -19,7 +19,7 @@ public class ClientsRented implements Serializable {
 
     public void addClient(Client client){
         if(clients.containsKey(client.getLastName()))
-            throw new ClientAlreadyExistsException("Użytkownik ze wskazanym nazwiskiem już istnieje " + client.getLastName());
+            throw new ClientAlreadyExistsException("Customer with such a surname doesn't exist " + client.getLastName());
         clients.put(client.getLastName(), client);
     }
 

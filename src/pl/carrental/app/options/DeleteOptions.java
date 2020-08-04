@@ -41,7 +41,7 @@ public class DeleteOptions {
                     deleteCaravan();
                     break;
                 default:
-                    cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
+                    cp.printLine("Select correct option. Try again!");
             }
         } while (option != DeleteOption.BACK);
     }
@@ -54,16 +54,16 @@ public class DeleteOptions {
                 option = DeleteOption.numberToOption(dr.getInt());
                 optionOk = true;
             } catch (NoSuchOptionException ex){
-                cp.printLine(ex.getMessage() + ", podaj ponownie:");
+                cp.printLine(ex.getMessage() + ", try again!");
             } catch (InputMismatchException ignored){
-                cp.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                cp.printLine("Entered value is not a number, try again!");
             }
         }
         return option;
     }
 
     private void printOptions(){
-        cp.printLine("Wybierz jedną z poniższych opcji: ");
+        cp.printLine("Select one of the options:");
         for(DeleteOption o: DeleteOption.values()){
             cp.printLine(o.toString());
         }
@@ -73,11 +73,11 @@ public class DeleteOptions {
         try{
             Car car = dr.addNewCar();
             if(vr.removeVehicle(car))
-                cp.printLine("Usunięto samochód z wypożyczalni");
+                cp.printLine("Car deleted");
             else
-                cp.printLine("Brak wskazanego samochodu w wypożyczalni");
+                cp.printLine("There is no such a car");
         } catch (InputMismatchException e){
-            cp.printLine("Nie udało się utworzyć samochodu, niepoprawne dane");
+            cp.printLine("Car not created, wrong data");
         }
     }
 
@@ -85,11 +85,11 @@ public class DeleteOptions {
         try{
             Bike bike = dr.addNewBike();
             if(vr.removeVehicle(bike))
-                cp.printLine("Usunięto rower z wypożyczalni");
+                cp.printLine("Bicycle deleted");
             else
-                cp.printLine("Brak wskazanego roweru w wypożyczalni");
+                cp.printLine("There is no such a bicycle");
         } catch (InputMismatchException e){
-            cp.printLine("Nie udało się utworzyć roweru, niepoprawne dane");
+            cp.printLine("Bicycle not created, wrong data");
         }
     }
 
@@ -97,20 +97,20 @@ public class DeleteOptions {
         try{
             Caravan caravan = dr.addNewCaravan();
             if(vr.removeVehicle(caravan))
-                cp.printLine("Usunięto samochód campingowy z wypożyczalni");
+                cp.printLine("Caravan deleted");
             else
-                cp.printLine("Brak wskazanego samochodu campingowego w wypożyczalni");
+                cp.printLine("There is no such a caravan");
         } catch (InputMismatchException e){
-            cp.printLine("Nie udało się utworzyć samochodu campingowego, niepoprawne dane");
+            cp.printLine("Caravan not created, wrong data");
         }
     }
 
     private enum DeleteOption {
 
-        BACK(0, "Cofnij do głównego menu"),
-        DELETE_CAR(1, "Usuń samochód z wypożyczalni"),
-        DELETE_BIKE(2, "Usuń rower z wypożyczalni"),
-        DELETE_CARAVAN(3, "Usuń samochód campingowy z wypożyczalni");
+        BACK(0, "Back to main menu"),
+        DELETE_CAR(1, "Delete car"),
+        DELETE_BIKE(2, "Delete bicycle"),
+        DELETE_CARAVAN(3, "Delete caravan");
 
         private int value;
         private String description;
@@ -128,7 +128,7 @@ public class DeleteOptions {
             try {
                 return DeleteOption.values()[number];
             } catch (ArrayIndexOutOfBoundsException ex){
-                throw new NoSuchOptionException("Nie ma takiej opcji w programie: " + number);
+                throw new NoSuchOptionException("There is no such an option " + number);
             }
         }
     }

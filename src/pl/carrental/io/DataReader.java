@@ -24,49 +24,49 @@ public class DataReader {
     }
 
     public PrivateClient createPrivateClient(){
-        printer.printLine("Imię: ");
+        printer.printLine("First name: ");
         String firstName = reader.nextLine();
-        printer.printLine("Nazwisko: ");
+        printer.printLine("Last name: ");
         String lastName = reader.nextLine();
-        printer.printLine("PESEL: ");
+        printer.printLine("ID number: ");
         String pesel = reader.nextLine();
         return new PrivateClient(firstName, lastName, pesel);
     }
 
     public String createLastName(){
-        printer.printLine("Podaj nazwisko klienta: ");
+        printer.printLine("Last name: ");
         String lastName = getString();
         return lastName;
     }
 
     public String createVin(){
-        printer.printLine("Podaj numer VIN/seryjny: ");
+        printer.printLine("VIN/Serial number: ");
         String vin = getString();
         return vin;
     }
 
     public BusinessClient createBusinessClient(){
-        printer.printLine("Imię: ");
+        printer.printLine("First name: ");
         String firstName = reader.nextLine();
-        printer.printLine("Nazwisko: ");
+        printer.printLine("Last name: ");
         String lastName = reader.nextLine();
-        printer.printLine("NIP: ");
+        printer.printLine("ID: ");
         String nip = reader.nextLine();
         return new BusinessClient(firstName, lastName, nip);
     }
 
     public Car addNewCar(){
-        printer.printLine("Podaj markę samochodu: ");
+        printer.printLine("Brand: ");
         String brand = reader.nextLine();
-        printer.printLine("Podaj model samochodu: ");
+        printer.printLine("Model: ");
         String model = reader.nextLine();
-        printer.printLine("Podaj rok produkcji samochodu: ");
+        printer.printLine("Year: ");
         int year = getInt();
-        printer.printLine("Podaj przebieg samochodu: ");
+        printer.printLine("Mileage: ");
         int vehicleMileage = getInt();
-        printer.printLine("Podaj czy samochód jest bezwypadkowy: ");
+        printer.printLine("Accident-free: ");
         boolean accidentFree = getBoolean();
-        printer.printLine("Podaj numer vin: ");
+        printer.printLine("VIN: ");
         String vin = reader.nextLine();
 
         return new Car(brand, model, year, vin, vehicleMileage, accidentFree);
@@ -74,17 +74,17 @@ public class DataReader {
     }
 
     public Bike addNewBike(){
-        printer.printLine("Podaj markę roweru: ");
+        printer.printLine("Brand: ");
         String brand = reader.nextLine();
-        printer.printLine("Podaj model roweru: ");
+        printer.printLine("Model: ");
         String model = reader.nextLine();
-        printer.printLine("Podaj rok produkcji roweru: ");
+        printer.printLine("Year: ");
         int year = getInt();
-        printer.printLine("Podaj typ roweru: ");
+        printer.printLine("Type: ");
         String typeBike = reader.nextLine();
-        printer.printLine("Podaj wielkość kół: ");
+        printer.printLine("Wheel size: ");
         int sizeOfWheels = getInt();
-        printer.printLine("Podaj numer seryjny wygrawerowany na rowerze: ");
+        printer.printLine("Serial number: ");
         String serial = reader.nextLine();
 
         return new Bike(brand, model, year, serial, typeBike, sizeOfWheels);
@@ -92,17 +92,17 @@ public class DataReader {
     }
 
     public Caravan addNewCaravan(){
-        printer.printLine("Podaj markę przyczepy campingowej: ");
+        printer.printLine("Brand: ");
         String brand = reader.nextLine();
-        printer.printLine("Podaj model przyczepy campingowej: ");
+        printer.printLine("Model: ");
         String model = reader.nextLine();
-        printer.printLine("Podaj rok produkcji przyczepy campingowej: ");
+        printer.printLine("Year: ");
         int year = getInt();
-        printer.printLine("Podaj ilość miejsc do spania: ");
+        printer.printLine("Number of sleep places: ");
         int sleepPlaces = getInt();
-        printer.printLine("Podaj ilość okien: ");
+        printer.printLine("Number of windows: ");
         int numberOfWindows = getInt();
-        printer.printLine("Podaj vin: ");
+        printer.printLine("VIN: ");
         String vin = reader.nextLine();
 
         return new Caravan(brand, model, year, vin, sleepPlaces, numberOfWindows);

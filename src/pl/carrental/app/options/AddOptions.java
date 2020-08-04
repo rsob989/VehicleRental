@@ -52,7 +52,7 @@ public class AddOptions {
                     addBusinessClient();
                     break;
                 default:
-                    cp.printLine("Wybierz poprawną opcję! Spróbuj ponownie!");
+                    cp.printLine("Select correct option, try again!");
             }
         } while (option != AddOption.BACK);
     }
@@ -65,16 +65,16 @@ public class AddOptions {
                 option = AddOption.numberToOption(dr.getInt());
                 optionOk = true;
             } catch (NoSuchOptionException ex){
-                cp.printLine(ex.getMessage() + ", podaj ponownie:");
+                cp.printLine(ex.getMessage() + ", try again:");
             } catch (InputMismatchException ignored){
-                cp.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
+                cp.printLine("Entered value is not a number, try again!");
             }
         }
         return option;
     }
 
     private void printOptions(){
-        cp.printLine("Wybierz jedną z poniższych opcji: ");
+        cp.printLine("Select one of the options:");
         for(AddOption o: AddOption.values()){
             cp.printLine(o.toString());
         }
@@ -85,9 +85,9 @@ public class AddOptions {
             Bike bike = dr.addNewBike();
             vr.addVehicles(bike);
         } catch (InputMismatchException e){
-            cp.printLine("Nie udało utworzyć się roweru, niepoprawne dane");
+            cp.printLine("Bicycle not created, wrong data");
         } catch (ArrayIndexOutOfBoundsException e){
-            cp.printLine("Osiągnięto limit przchowywanych pojazdów");
+            cp.printLine("Maximum number of vehicles reached");
         }
     }
 
@@ -96,9 +96,9 @@ public class AddOptions {
             Caravan caravan = dr.addNewCaravan();
             vr.addVehicles(caravan);
         } catch (InputMismatchException e){
-            cp.printLine("Nie udało się utworzyć samochodu campingowego, niepoprawne dane");
+            cp.printLine("Caravan not created, wrong data");
         } catch (ArrayIndexOutOfBoundsException e){
-            cp.printLine("Osiągnięto limit przchowywanych pojazdów");
+            cp.printLine("Maximum number of vehicles reached");
         }
     }
 
@@ -107,9 +107,9 @@ public class AddOptions {
             Car car = dr.addNewCar();
             vr.addVehicles(car);
         } catch (InputMismatchException e){
-            cp.printLine("Nie udało utworzyć się samochodu, niepoprawne dane");
+            cp.printLine("Car not created, wrong data");
         } catch (ArrayIndexOutOfBoundsException e){
-            cp.printLine("Osiągnięto limit przchowywanych pojazdów");
+            cp.printLine("Maximum number of vehicles reached");
         }
     }
 
@@ -133,12 +133,12 @@ public class AddOptions {
 
     private enum AddOption {
 
-        BACK(0, "Cofnij do głównego menu"),
-        ADD_CAR(1, "Dodanie kolejnego samochodu do wypożyczalni"),
-        ADD_BIKE(2, "Dodanie kolejnego roweru do wypożyczalni"),
-        ADD_CARAVAN(3, "Dodanie kolejnego wozu campingowego do wypożyczalni"),
-        ADD_PRIVATE_CLIENT(4,"Dodanie prywatnego klienta do wypożyczalni"),
-        ADD_BUSINESS_CLIENT(5, "Dodanie biznesowego klienta do wypożyczalni");
+        BACK(0, "Back to main menu"),
+        ADD_CAR(1, "Add car"),
+        ADD_BIKE(2, "Add bicycle"),
+        ADD_CARAVAN(3, "Add caravan"),
+        ADD_PRIVATE_CLIENT(4,"Add private customer"),
+        ADD_BUSINESS_CLIENT(5, "Add business customer");
 
         private int value;
         private String description;
@@ -156,7 +156,7 @@ public class AddOptions {
             try {
                 return AddOption.values()[number];
             } catch (ArrayIndexOutOfBoundsException ex){
-                throw new NoSuchOptionException("Nie ma takiej opcji w programie: " + number);
+                throw new NoSuchOptionException("There is no such an option " + number);
             }
         }
     }

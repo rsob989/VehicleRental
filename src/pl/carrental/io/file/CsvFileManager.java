@@ -45,7 +45,7 @@ public class CsvFileManager implements FileManager {
                 bufferedWriter.newLine();
             }
         } catch (IOException e){
-            throw new DataExportException("Błąd zapisu danych do pliku " + fileName);
+            throw new DataExportException("A write error occurred " + fileName);
         }
     }
 
@@ -71,9 +71,9 @@ public class CsvFileManager implements FileManager {
                     .map(this::createClientFromLine)
                     .forEach(cr::addClient);
         } catch (FileNotFoundException e){
-            throw new DataImportException("Brak pliku " + CLIENTS_FILE_NAME);
+            throw new DataImportException("No such a file " + CLIENTS_FILE_NAME);
         } catch (IOException e){
-            throw new DataImportException("Błąd odczytu pliku " + CLIENTS_FILE_NAME);
+            throw new DataImportException("A read error occurred " + CLIENTS_FILE_NAME);
         }
     }
 
@@ -85,9 +85,9 @@ public class CsvFileManager implements FileManager {
                     .map(this::createObjectFromLine)
                     .forEach(vr::addVehicles);
             } catch (FileNotFoundException e){
-            throw new DataImportException("Brak pliku " + VEHICLES_FILE_NAME);
+            throw new DataImportException("No such a file " + VEHICLES_FILE_NAME);
             } catch (IOException e){
-            throw new DataImportException("Błąd odczytu pliku " + VEHICLES_FILE_NAME);
+            throw new DataImportException("A read error occurred " + VEHICLES_FILE_NAME);
         }
     }
 
@@ -99,7 +99,7 @@ public class CsvFileManager implements FileManager {
         } else if(BusinessClient.TYPE.equals(type)){
             return createBusinessClient(split);
         }
-        throw new InvalidDataException("Nieznany typ klienta: " + type);
+        throw new InvalidDataException("Customer type unknown: " + type);
     }
 
     private PrivateClient createPrivateClient(String[] data){
@@ -126,7 +126,7 @@ public class CsvFileManager implements FileManager {
         } else if(Caravan.TYPE.equals(type)){
             return createCaravan(split);
         }
-        throw new InvalidDataException("Nieznany typ pojazdu: " + type);
+        throw new InvalidDataException("Vehicle type unknown: " + type);
     }
 
     private Bike createBike(String[] data){

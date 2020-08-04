@@ -53,7 +53,7 @@ public abstract class Vehicles implements Serializable, Comparable<Vehicles>, Cs
 
     @Override
     public String toString() {
-        return "marka:" + brand + " ; model:" +  model + " ; rocznik:" + year + " ; numer seryjny/vin:" + vin;
+        return "brand:" + brand + " ; model:" +  model + " ; year:" + year + " ; vin/serial number:" + vin;
     }
 
     @Override

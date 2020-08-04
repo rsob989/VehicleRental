@@ -20,11 +20,11 @@ public class SerializableFileManager implements FileManager {
             VehiclesToRent vr = (VehiclesToRent)ois.readObject();
             return vr;
         } catch (FileNotFoundException e){
-            throw new DataImportException("Brak pliku " + VEHICLE_FILE_NAME);
+            throw new DataImportException("No such a file: " + VEHICLE_FILE_NAME);
         } catch (IOException e){
-            throw new DataImportException("Błąd odczytu pliku " + VEHICLE_FILE_NAME);
+            throw new DataImportException("A read error occurred " + VEHICLE_FILE_NAME);
         } catch (ClassNotFoundException e){
-            throw new DataImportException("Niezgodny typ danych w pliku " + VEHICLE_FILE_NAME);
+            throw new DataImportException("Incompatible data type in the file " + VEHICLE_FILE_NAME);
         }
     }
 
@@ -36,11 +36,11 @@ public class SerializableFileManager implements FileManager {
             ClientsRented cr = (ClientsRented) ois.readObject();
             return cr;
         } catch (FileNotFoundException e){
-            throw new DataImportException("Brak pliku " + CLIENTS_FILE_NAME);
+            throw new DataImportException("No such a file: " + CLIENTS_FILE_NAME);
         } catch (IOException e){
-            throw new DataImportException("Błąd odczytu pliku " + CLIENTS_FILE_NAME);
+            throw new DataImportException("A read error occurred " + CLIENTS_FILE_NAME);
         } catch (ClassNotFoundException e){
-            throw new DataImportException("Niezgodny typ danych w pliku " + CLIENTS_FILE_NAME);
+            throw new DataImportException("Incompatible data type in the file " + CLIENTS_FILE_NAME);
         }
     }
 
@@ -58,9 +58,9 @@ public class SerializableFileManager implements FileManager {
         ){
             oos.writeObject(data);
         } catch (FileNotFoundException e){
-            throw new DataExportException("Brak pliku " + fileName);
+            throw new DataExportException("No such a file: " + fileName);
         } catch (IOException e){
-            throw new DataExportException("Błąd zapisu danych do pliku " + fileName);
+            throw new DataExportException("A write error occurred " + fileName);
         }
     }
 }
